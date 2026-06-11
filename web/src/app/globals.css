@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-oven-950: #0d0704;
+  --color-oven-900: #150b07;
+  --color-oven-800: #1e1009;
+  --color-oven-700: #2a1710;
+  --color-oven-600: #3a2015;
+  --color-oven-500: #4a2c1e;
+  --color-ember: #e07030;
+  --color-ember-light: #f49240;
+  --color-ember-dark: #c05a20;
+  --color-crust: #c9945a;
+  --color-crust-light: #d4a96e;
+  --color-crust-dark: #a67844;
+  --color-cream: #ebd5c0;
+  --color-cream-light: #faf3e8;
+  --color-cream-dark: #c4a882;
+  --color-cream-muted: #9e8768;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #0d0704;
+    color: #ebd5c0;
+  }
+  ::selection {
+    background-color: rgba(224, 112, 48, 0.3);
+    color: #faf3e8;
+  }
+}
+
+@layer utilities {
+  .text-gradient-ember {
+    background: linear-gradient(135deg, #e07030, #f49240, #c9945a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .bg-gradient-oven {
+    background: linear-gradient(180deg, #150b07 0%, #1e1009 50%, #0d0704 100%);
+  }
+  .bg-gradient-ember {
+    background: linear-gradient(135deg, #c05a20 0%, #e07030 50%, #f49240 100%);
+  }
+  .bg-gradient-card {
+    background: linear-gradient(145deg, #2a1710 0%, #1e1009 100%);
+  }
+  .border-oven-subtle {
+    border-color: rgba(196, 168, 130, 0.1);
+  }
+  .glow-ember {
+    box-shadow: 0 0 40px rgba(224, 112, 48, 0.15), 0 0 80px rgba(224, 112, 48, 0.05);
+  }
+  .glow-crust {
+    box-shadow: 0 0 30px rgba(201, 148, 90, 0.12);
+  }
+}

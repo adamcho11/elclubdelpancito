@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Node (web app handles its own node_modules ignore)
+web/node_modules/
+web/.next/
+web/out/
+web/.vercel
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp
+/tmp/

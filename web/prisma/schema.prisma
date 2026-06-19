@@ -57,3 +57,28 @@ model Product {
   image       String
   price       Int
 }
+
+model Bread {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  ingredients String
+  texture     String
+  role        String
+  image       String
+}
+
+model Plan {
+  id                 Int     @id @default(autoincrement())
+  slug               String  @unique
+  name               String
+  subtitle           String
+  frequency          String
+  breadComposition   String
+  complements        String  // JSON array stored as string
+  extraProduct       String
+  target             String
+  price              Int
+  deliveriesPerMonth Int
+  highlighted        Boolean @default(false)
+}

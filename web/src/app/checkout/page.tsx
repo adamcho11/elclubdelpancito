@@ -4,10 +4,13 @@ import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { plans } from "@/data/plans"
-import { complements } from "@/data/complements"
+import { plans as staticPlans } from "@/data/plans"
+import { complements as staticComplements } from "@/data/complements"
 import { useAuth } from "@/components/AuthProvider"
 import { fetchApi } from "@/lib/api"
+
+interface PlanItem { id: number; slug: string; name: string; subtitle: string; frequency: string; breadComposition: string; complements: string[]; extraProduct: string; target: string; price: number; deliveriesPerMonth: number; highlighted: boolean }
+interface ComplementItem { id: string; name: string; brand: string; category: string; description: string; shelfLife: string; image: string; price: number }
 
 const STEPS = ["Plan", "Producto semanal", "Extras", "Revisar", "Pagar"]
 
@@ -16,6 +19,28 @@ function CheckoutForm() {
   const searchParams = useSearchParams()
   const { user, loading: authLoading } = useAuth()
   const planFromUrl = searchParams.get("plan")
+
+  const [dbPlans, setDbPlans] = useState<PlanItem[]>([])
+  const [dbComplements, setDbComplements] = useState<ComplementItem[]>([])
+
+  const plans = dbPlans.length > 0
+    ? dbPlans.map((p) => ({ id: p.slug, name: p.name, subtitle: p.subtitle, frequency: p.frequency, breadComposition: p.breadComposition, complements: p.complements, extraProduct: p.extraProduct, target: p.target, price: p.price, deliveriesPerMonth: p.deliveriesPerMonth, highlighted: p.highlighted }))
+    : staticPlans
+
+  const complements = dbComplements.length > 0
+    ? dbComplements.map((c) => ({ id: String(c.id), name: c.name, brand: c.brand, category: c.category, description: c.description, shelfLife: c.shelfLife, image: c.image, price: c.price }))
+    : staticComplements
+
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/plans").then((r) => r.json()).catch(() => []),
+      fetch("/api/products").then((r) => r.json()).catch(() => []),
+    ]).then(([pl, co]) => {
+      if (Array.isArray(pl) && pl.length > 0) setDbPlans(pl)
+      if (Array.isArray(co) && co.length > 0) setDbComplements(co.map((c: { id: number; name: string; brand: string; category: string; description: string; shelfLife: string; image: string; price: number }) => ({ ...c, id: String(c.id) })))
+    })
+  }, [])
+
   const [step, setStep] = useState(0)
   const [selectedPlan, setSelectedPlan] = useState(planFromUrl || "")
   const [weeklyProduct, setWeeklyProduct] = useState("")

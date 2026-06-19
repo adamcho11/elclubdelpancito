@@ -1,13 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"
-
-export interface ApiError {
-  error: string
-}
-
 export async function fetchApi(path: string, options: RequestInit = {}) {
-  const url = `${API_URL}${path}`
-
-  const res = await fetch(url, {
+  const res = await fetch(path, {
     ...options,
     credentials: "include",
     headers: {

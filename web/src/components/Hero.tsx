@@ -107,7 +107,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/checkout"
+              href="/planes"
               className="px-8 py-4 bg-gradient-ember text-white font-semibold rounded-xl text-sm
                 hover:shadow-xl hover:shadow-ember/30 transition-all duration-300
                 active:scale-95 hover:-translate-y-0.5"

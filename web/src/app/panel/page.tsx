@@ -33,7 +33,13 @@ export default function PanelPage() {
       .finally(() => setLoading(false))
   }, [user, authLoading, router])
 
-  if (authLoading || !user) return null
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-oven-950">
+        <div className="w-8 h-8 border-2 border-ember border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
 
   const statusBadge = (status: string) => {
     switch (status) {

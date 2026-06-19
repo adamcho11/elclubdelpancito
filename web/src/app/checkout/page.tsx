@@ -1,17 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { plans } from "@/data/plans"
 import { useAuth } from "@/components/AuthProvider"
 import { fetchApi } from "@/lib/api"
 
-export default function CheckoutPage() {
+function CheckoutForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { user, loading: authLoading } = useAuth()
-  const [selectedPlan, setSelectedPlan] = useState(plans[0].id)
+  const planFromUrl = searchParams.get("plan")
+  const [selectedPlan, setSelectedPlan] = useState(planFromUrl || "")
   const [notas, setNotas] = useState("")
   const [recibo, setRecibo] = useState("")
   const [loading, setLoading] = useState(false)
@@ -20,12 +22,17 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      router.replace("/login")
+      router.replace(`/login?redirect=${encodeURIComponent("/checkout" + (planFromUrl ? `?plan=${planFromUrl}` : ""))}`)
     }
-  }, [user, authLoading, router])
+  }, [user, authLoading, router, planFromUrl])
 
-  if (authLoading) return null
-  if (!user) return null
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-oven-950">
+        <div className="w-8 h-8 border-2 border-ember border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -49,7 +56,7 @@ export default function CheckoutPage() {
     setError("")
 
     if (!selectedPlan) {
-      setError("Seleccioná un plan")
+      setError("Seleccioná un plan de suscripción")
       return
     }
 
@@ -245,16 +252,28 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !selectedPlan}
               className="w-full py-4 bg-gradient-ember text-white font-semibold rounded-xl text-base
                 hover:shadow-xl hover:shadow-ember/30 transition-all duration-300 active:scale-[0.98]
                 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Enviando..." : "Enviar comprobante"}
+              {loading ? "Enviando..." : !selectedPlan ? "Seleccioná un plan" : "Enviar comprobante"}
             </button>
           </form>
         </div>
       </section>
     </div>
+  )
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-oven-950">
+        <div className="w-8 h-8 border-2 border-ember border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <CheckoutForm />
+    </Suspense>
   )
 }

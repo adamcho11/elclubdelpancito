@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { useAuth } from "@/components/AuthProvider"
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get("redirect") || "/panel"
   const { login, user } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -14,7 +16,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
 
   if (user) {
-    router.replace("/panel")
+    router.replace(redirect)
     return null
   }
 
@@ -25,7 +27,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password)
-      router.push("/panel")
+      router.push(redirect)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al iniciar sesión")
     } finally {
@@ -95,11 +97,23 @@ export default function LoginPage() {
 
         <p className="mt-6 text-center text-cream-dark/50 text-sm">
           ¿No tenés cuenta?{" "}
-          <Link href="/register" className="text-ember hover:text-ember-light transition-colors">
+          <Link href={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-ember hover:text-ember-light transition-colors">
             Registrate
           </Link>
         </p>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-oven-950">
+        <div className="w-8 h-8 border-2 border-ember border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }

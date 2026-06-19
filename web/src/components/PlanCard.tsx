@@ -65,7 +65,7 @@ export default function PlanCard({ plan, detailed = false }: { plan: Plan; detai
         </div>
 
         <Link
-          href="/planes"
+          href={`/checkout?plan=${plan.id}`}
           className={`mt-8 block w-full text-center py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 active:scale-95 ${
             plan.highlighted
               ? "bg-gradient-ember text-white hover:shadow-xl hover:shadow-ember/30"

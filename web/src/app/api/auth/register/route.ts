@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { z } from "zod"
-import { cookies } from "next/headers"
 import { prisma } from "@/lib/prisma"
 import { signToken } from "@/lib/jwt"
 
@@ -37,8 +36,15 @@ export async function POST(request: Request) {
 
     const token = signToken({ userId: user.id, email: user.email, role: user.role })
 
-    const cookieStore = await cookies()
-    cookieStore.set("token", token, {
+    const response = NextResponse.json({
+      id: user.id,
+      email: user.email,
+      nombre: user.nombre,
+      telefono: user.telefono,
+      role: user.role,
+    }, { status: 201 })
+
+    response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -46,13 +52,7 @@ export async function POST(request: Request) {
       maxAge: 7 * 24 * 60 * 60,
     })
 
-    return NextResponse.json({
-      id: user.id,
-      email: user.email,
-      nombre: user.nombre,
-      telefono: user.telefono,
-      role: user.role,
-    }, { status: 201 })
+    return response
   } catch (err) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: err.issues[0].message }, { status: 400 })

@@ -35,8 +35,9 @@ export default function PanelPage() {
   const pastIds = new Set(history.filter((h) => h.complementId !== weekPick).map((h) => h.complementId))
 
   useEffect(() => {
-    if (authLoading || !user) return
-    if (!authLoading && !user) { router.replace("/login"); return }
+    if (authLoading) return
+    if (!user) { router.replace("/login"); return }
+    if (user.role === "admin") { router.replace("/admin"); return }
 
     let cancelled = false
     async function load() {
@@ -81,7 +82,7 @@ export default function PanelPage() {
     }
   }
 
-  if (authLoading || !user) {
+  if (authLoading || !user || user.role === "admin") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-oven-950">
         <div className="w-8 h-8 border-2 border-ember border-t-transparent rounded-full animate-spin" />

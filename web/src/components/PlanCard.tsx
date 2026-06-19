@@ -37,24 +37,11 @@ export default function PlanCard({ plan, detailed = false }: { plan: Plan; detai
             <p className="text-cream-dark/70 text-sm mt-1">{plan.breadComposition}</p>
           </div>
 
-          <div>
-            <span className="text-cream-dark text-xs font-semibold uppercase tracking-wider">Complementos</span>
-            <ul className="mt-2 space-y-1.5">
-              {plan.complements.map((comp, i) => (
-                <li key={i} className="text-cream-dark/60 text-sm flex items-start gap-2">
-                  <span className="text-ember mt-0.5 shrink-0">•</span>
-                  {comp}
-                </li>
-              ))}
-            </ul>
-          </div>
-
           <div className="rounded-xl bg-ember/5 border border-ember/15 p-3">
             <span className="text-ember-light text-xs font-semibold uppercase tracking-wider">
-              + Producto gratis a elección semanal
+              + 1 Complemento gratis semanal
             </span>
-            <p className="text-cream-dark/70 text-xs mt-1">{plan.extraProduct}</p>
-            <p className="text-cream-dark/50 text-[10px] mt-0.5">Distinto cada semana. Elegilo en tu panel.</p>
+            <p className="text-cream-dark/70 text-xs mt-1">{plan.complement}</p>
           </div>
 
           {detailed && (

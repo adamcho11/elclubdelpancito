@@ -4,7 +4,7 @@ export interface Plan {
   subtitle: string
   frequency: string
   breadComposition: string
-  complements: string[]
+  complement: string
   extraProduct: string
   target: string
   price: number
@@ -16,54 +16,37 @@ export const plans: Plan[] = [
   {
     id: "chuquisaqueno-diario",
     name: "El Chuquisaqueño Diario",
-    subtitle: "Pan caliente cada mañana en tu puerta",
+    subtitle: "10 sarnitas cada mañana · Solo Bs. 10.83/día",
     frequency: "Lunes a Sábado · 6 entregas por semana",
-    breadComposition: "10 sarnitas recién horneadas por entrega (60 sarnitas por semana a Bs. 0.50 c/u)",
-    complements: [
-      "1 maple de huevos criollos (30 unidades, quincenal)",
-      "1 Margarina Regia (250g, mensual)",
-      "1 Jamón Cobolde (500g, quincenal)",
-      "1 caja de Té con Canela Windsor (50 bolsitas, mensual)",
-    ],
-    extraProduct: "1 producto gratis a elección semanal (café, queso, dulce, embutido, etc.) · ¡Distinto cada semana!",
-    target: "Familias tradicionales de Sucre que consumen pan diariamente y desean la comodidad de recibirlo caliente cada mañana.",
+    breadComposition: "10 sarnitas recién horneadas por entrega (60 sarnitas/sem a Bs. 0.50 c/u)",
+    complement: "1 complemento gratis a elección: huevos, queso, café, mermelada y más. ¡Distinto cada semana!",
+    extraProduct: "Agregá extras a tu pedido desde Bs. 5.",
+    target: "Familias que quieren pan caliente todos los días sin salir de casa.",
     price: 65,
     deliveriesPerMonth: 6,
     highlighted: true,
   },
   {
     id: "desayuno-familiar",
-    name: "Desayuno Familiar Chuquisaqueño",
-    subtitle: "Variedad tradicional tres veces por semana",
+    name: "Desayuno Familiar",
+    subtitle: "15 panes variados 3x/sem · Solo Bs. 27.33/entrega",
     frequency: "Lunes, Miércoles y Viernes · 3 entregas por semana",
-    breadComposition: "15 panes variados por entrega: 5 sarnitas, 5 mestizos y 5 k'aspas (45 panes por semana a Bs. 0.50 c/u)",
-    complements: [
-      "1 maple de huevos criollos (30 unidades, mensual)",
-      "1 porción de Queso Criollo (300g, quincenal)",
-      "1 Dulce de Leche artesanal (350g, mensual)",
-      "1 lata de Pasta de Hígado Cobolde (mensual)",
-      "1 caja de Té con Limón Windsor (mensual)",
-    ],
-    extraProduct: "1 producto gratis a elección semanal (mermelada, margarina, café, etc.) · ¡Distinto cada semana!",
-    target: "Hogares medianos que prefieren el pan tradicional chuquisaqueño de alta calidad con proteínas saladas y untables.",
+    breadComposition: "5 sarnitas + 5 mestizos + 5 k'aspas por entrega (45 panes/sem a Bs. 0.50 c/u)",
+    complement: "1 complemento gratis a elección: queso criollo, dulce de leche, mermelada y más. ¡Distinto cada semana!",
+    extraProduct: "Agregá extras a tu pedido desde Bs. 5.",
+    target: "Hogares que quieren variedad de panes tradicionales 3 veces por semana.",
     price: 82,
     deliveriesPerMonth: 3,
   },
   {
     id: "tarde-te-bienestar",
     name: "Tarde de Té y Bienestar",
-    subtitle: "La experiencia premium del té de la tarde",
-    frequency: "Cada 7 días · 1 entrega por semana",
-    breadComposition: "5 sarnitas, 3 bollos, 2 mestizos y 1 kauka integral por entrega (11 panes por semana a Bs. 0.50 c/u)",
-    complements: [
-      "1 bolsa de Café de Especialidad Yungas molido (250g, mensual)",
-      "1 Mantequilla Pil (200g, quincenal)",
-      "1 mermelada local sin azúcar (mensual)",
-      "1 docena de huevos criollos (quincenal)",
-      "1 caja de Manzanilla Windsor (mensual)",
-    ],
-    extraProduct: "1 producto gratis a elección semanal (queso, dulce de leche, pâté, etc.) · ¡Distinto cada semana!",
-    target: "Profesionales de nivel socioeconómico medio-alto, amantes de la alimentación saludable y el café premium.",
+    subtitle: "11 panes premium/sem · Solo Bs. 52/entrega",
+    frequency: "1 entrega semanal · El día que vos elijas",
+    breadComposition: "5 sarnitas + 3 bollos + 2 mestizos + 1 kauka integral por entrega (a Bs. 0.50 c/u)",
+    complement: "1 complemento gratis a elección: mantequilla, café yungas, mermelada artesanal y más. ¡Distinto cada semana!",
+    extraProduct: "Agregá extras a tu pedido desde Bs. 5.",
+    target: "Amantes del buen pan, café premium y alimentación saludable.",
     price: 52,
     deliveriesPerMonth: 1,
   },

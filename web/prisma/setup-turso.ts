@@ -75,6 +75,35 @@ async function main() {
     )
   `)
 
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS Bread (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      description TEXT NOT NULL,
+      ingredients TEXT NOT NULL,
+      texture TEXT NOT NULL,
+      role TEXT NOT NULL,
+      image TEXT NOT NULL
+    )
+  `)
+
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS Plan (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      planId TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      subtitle TEXT NOT NULL,
+      frequency TEXT NOT NULL,
+      breadComposition TEXT NOT NULL,
+      complements TEXT NOT NULL,
+      extraProduct TEXT NOT NULL,
+      target TEXT NOT NULL,
+      price INTEGER NOT NULL,
+      deliveriesPerMonth INTEGER NOT NULL,
+      highlighted INTEGER NOT NULL DEFAULT 0
+    )
+  `)
+
   console.log("Tablas creadas.")
 
   // Seed products
@@ -105,6 +134,32 @@ async function main() {
     }
   }
   console.log(`${products.length} productos sincronizados.`)
+
+  // Seed breads
+  const breads = [
+    { name: "Bollo", description: "Pan clásico sucrense de miga densa y corteza crocante. El pan de cada día.", ingredients: "Harina de trigo, agua, levadura, sal, manteca", texture: "Corteza crocante, miga densa", role: "Pan de batalla", image: "/images/panes/bollo.webp" },
+    { name: "K'aspa", description: "Pan crujiente y delgado, especial para acompañar sopas y guisos.", ingredients: "Harina de trigo, agua, levadura, sal, grasa", texture: "Muy crujiente, hojaldrado", role: "Acompañante", image: "/images/panes/kaspa.webp" },
+    { name: "Kauka", description: "Pan integral con salvado de trigo, sabor rústico y alto contenido de fibra.", ingredients: "Harina integral, agua, levadura, sal, miel", texture: "Rústico, miga aireada", role: "Saludable", image: "/images/panes/kauka.webp" },
+    { name: "Mestizo", description: "Pan mestizo de harina blanca e integral, el punto medio perfecto.", ingredients: "Harina de trigo, harina integral, agua, levadura, sal", texture: "Equilibrado, esponjoso", role: "Versátil", image: "/images/panes/mestizo.webp" },
+    { name: "Sarnita", description: "Pan dulce con queso criollo rallado, tradición chuquisaqueña.", ingredients: "Harina de trigo, agua, levadura, sal, azúcar, queso criollo", texture: "Suave, dulce, con trozos de queso", role: "Desayuno", image: "/images/panes/sarnita.webp" },
+  ]
+  for (const b of breads) {
+    const exists = await prisma.bread.findFirst({ where: { name: b.name } })
+    if (!exists) await prisma.bread.create({ data: b })
+  }
+  console.log(`${breads.length} panes sincronizados.`)
+
+  // Seed plans
+  const plans = [
+    { planId: "chuquisaqueno-diario", name: "El Chuquisaqueño Diario", subtitle: "Pan caliente cada mañana en tu puerta", frequency: "Lunes a Sábado · 6 entregas por semana", breadComposition: "10 panes de batalla recién horneados por entrega (60 panes por semana)", complements: JSON.stringify(["1 maple de huevos criollos (30 unidades, quincenal)", "1 Margarina Regia (250g, mensual)", "1 Jamón Cobolde (500g, quincenal)", "1 caja de Té con Canela Windsor (50 bolsitas, mensual)"]), extraProduct: "1 producto gratis a elección semanal (café, queso, dulce, embutido, etc.) · ¡Distinto cada semana!", target: "Familias tradicionales de Sucre", price: 65, deliveriesPerMonth: 6, highlighted: true },
+    { planId: "desayuno-familiar", name: "Desayuno Familiar Chuquisaqueño", subtitle: "Variedad tradicional tres veces por semana", frequency: "Lunes, Miércoles y Viernes · 3 entregas por semana", breadComposition: "15 panes variados tradicionales por entrega (k'aspas, sarnitas con queso y mestizos · 45 panes por semana)", complements: JSON.stringify(["1 maple de huevos criollos (30 unidades, mensual)", "1 porción de Queso Criollo (300g, quincenal)", "1 Dulce de Leche artesanal (350g, mensual)", "1 lata de Pasta de Hígado Cobolde (mensual)", "1 caja de Té con Limón Windsor (mensual)"]), extraProduct: "1 producto gratis a elección semanal (mermelada, margarina, café, etc.) · ¡Distinto cada semana!", target: "Hogares medianos", price: 82, deliveriesPerMonth: 3, highlighted: false },
+    { planId: "tarde-te-bienestar", name: "Tarde de Té y Bienestar", subtitle: "La experiencia premium del té de la tarde", frequency: "Cada 7 días · 1 entrega por semana", breadComposition: "1 hogaza grande de Pan de Masa Madre (750g) y 10 panes de toco integrales por entrega", complements: JSON.stringify(["1 bolsa de Café de Especialidad Yungas molido (250g, mensual)", "1 Mantequilla Pil (200g, quincenal)", "1 mermelada local sin azúcar (mensual)", "1 docena de huevos criollos (quincenal)", "1 caja de Manzanilla Windsor (mensual)"]), extraProduct: "1 producto gratis a elección semanal (queso, dulce de leche, pâté, etc.) · ¡Distinto cada semana!", target: "Profesionales saludables", price: 52, deliveriesPerMonth: 1, highlighted: false },
+  ]
+  for (const p of plans) {
+    const exists = await prisma.plan.findUnique({ where: { planId: p.planId } })
+    if (!exists) await prisma.plan.create({ data: p })
+  }
+  console.log(`${plans.length} planes sincronizados.`)
 
   const password = await bcrypt.hash("admin123", 10)
 

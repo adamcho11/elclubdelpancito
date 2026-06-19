@@ -70,12 +70,12 @@ model Bread {
 
 model Plan {
   id                 Int     @id @default(autoincrement())
-  slug               String  @unique
+  planId             String  @unique
   name               String
   subtitle           String
   frequency          String
   breadComposition   String
-  complements        String  // JSON array stored as string
+  complements        String
   extraProduct       String
   target             String
   price              Int

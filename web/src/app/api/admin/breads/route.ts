@@ -4,15 +4,11 @@ import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth-utils"
 
 export async function GET() {
-  try {
-    const breads = await prisma.bread.findMany({ orderBy: { name: "asc" } })
-    return NextResponse.json(breads)
-  } catch {
-    return NextResponse.json({ error: "Error" }, { status: 500 })
-  }
+  try { await requireAdmin(); return NextResponse.json(await prisma.bread.findMany()) }
+  catch (err) { return NextResponse.json({ error: "Acceso denegado" }, { status: 403 }) }
 }
 
-const breadSchema = z.object({
+const schema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   ingredients: z.string().min(1),
@@ -24,12 +20,11 @@ const breadSchema = z.object({
 export async function POST(request: Request) {
   try {
     await requireAdmin()
-    const body = breadSchema.parse(await request.json())
-    const bread = await prisma.bread.create({ data: body })
-    return NextResponse.json(bread, { status: 201 })
+    const product = await prisma.bread.create({ data: schema.parse(await request.json()) })
+    return NextResponse.json(product, { status: 201 })
   } catch (err) {
     if (err instanceof Error && err.message === "Acceso denegado") return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.issues[0].message }, { status: 400 })
-    return NextResponse.json({ error: "Error al crear" }, { status: 500 })
+    return NextResponse.json({ error: "Error" }, { status: 500 })
   }
 }

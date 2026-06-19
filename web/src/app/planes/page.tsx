@@ -1,6 +1,18 @@
+import type { Metadata } from "next"
 import PlanCard from "@/components/PlanCard"
 import { plans } from "@/data/plans"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Planes de Suscripción",
+  description:
+    "Tres planes flexibles de suscripción de pan artesanal con entrega a domicilio en Sucre. Elegí el que mejor se adapte a tu hogar.",
+  openGraph: {
+    title: "Planes de Suscripción | El Club del Pancito",
+    description:
+      "Tres planes flexibles de suscripción de pan artesanal con entrega a domicilio en Sucre.",
+  },
+}
 
 export default function PlanesPage() {
   return (
@@ -78,7 +90,7 @@ export default function PlanesPage() {
 
           <div className="text-center mt-14">
             <Link
-              href="/planes"
+              href="/checkout"
               className="px-10 py-4 bg-gradient-ember text-white font-semibold rounded-xl text-base
                 hover:shadow-xl hover:shadow-ember/30 transition-all duration-300 active:scale-95"
             >

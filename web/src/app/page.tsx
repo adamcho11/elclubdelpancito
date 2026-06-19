@@ -1,8 +1,20 @@
+import type { Metadata } from "next"
 import Hero from "@/components/Hero"
 import ComoFunciona from "@/components/ComoFunciona"
 import PlanCard from "@/components/PlanCard"
 import { plans } from "@/data/plans"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Panadería Artesanal por Suscripción en Sucre",
+  description:
+    "Pan artesanal chuquisaqueño recién horneado entregado a domicilio con modelo de suscripción flexible. Descubrí la calidez del horno de barro cada mañana.",
+  openGraph: {
+    title: "El Club del Pancito | Panadería Artesanal por Suscripción",
+    description:
+      "Pan artesanal chuquisaqueño recién horneado entregado a domicilio con modelo de suscripción flexible.",
+  },
+}
 
 export default function Home() {
   return (
@@ -54,7 +66,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/planes"
+              href="/checkout"
               className="px-10 py-4 bg-gradient-ember text-white font-semibold rounded-xl text-base
                 hover:shadow-xl hover:shadow-ember/30 transition-all duration-300 active:scale-95"
             >

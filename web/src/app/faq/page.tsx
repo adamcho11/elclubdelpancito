@@ -1,5 +1,17 @@
+import type { Metadata } from "next"
 import FAQAccordion from "@/components/FAQAccordion"
 import { faqItems } from "@/data/faq"
+
+export const metadata: Metadata = {
+  title: "Preguntas Frecuentes",
+  description:
+    "Resolvé tus dudas sobre entregas, pagos, suscripciones y más. Todo lo que necesitás saber sobre El Club del Pancito en Sucre, Bolivia.",
+  openGraph: {
+    title: "Preguntas Frecuentes | El Club del Pancito",
+    description:
+      "Resolvé tus dudas sobre entregas, pagos, suscripciones y más de El Club del Pancito en Sucre, Bolivia.",
+  },
+}
 
 export default function FAQPage() {
   return (
@@ -34,7 +46,7 @@ export default function FAQPage() {
               Escribinos por WhatsApp y te respondemos en minutos.
             </p>
             <a
-              href="https://wa.me/591XXXXXXXX"
+              href="https://wa.me/59175769711"
               className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600/20 border border-emerald-600/30 text-emerald-400 font-semibold rounded-xl text-sm
                 hover:bg-emerald-600/30 transition-all duration-300"
             >

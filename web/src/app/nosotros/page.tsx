@@ -1,3 +1,16 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Nosotros",
+  description:
+    "Conocé la historia de El Club del Pancito, la tradición panadera chuquisaqueña y nuestro modelo de suscripción de pan artesanal a domicilio en Sucre.",
+  openGraph: {
+    title: "Nosotros | El Club del Pancito",
+    description:
+      "Conocé la historia de El Club del Pancito, la tradición panadera chuquisaqueña y nuestro modelo de suscripción de pan artesanal a domicilio en Sucre.",
+  },
+}
+
 export default function NosotrosPage() {
   return (
     <div className="min-h-screen">

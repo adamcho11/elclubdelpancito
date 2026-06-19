@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useAuth } from "@/components/AuthProvider"
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -16,6 +17,7 @@ const links = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const { user, loading, logout } = useAuth()
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-oven-950/80 backdrop-blur-xl border-b border-oven-700/50">
@@ -53,8 +55,32 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {!loading && user && (
+              <Link
+                href="/panel"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all duration-300"
+              >
+                {user.nombre.split(" ")[0]}
+              </Link>
+            )}
+            {!loading && !user && (
+              <Link
+                href="/login"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all duration-300"
+              >
+                Ingresar
+              </Link>
+            )}
+            {!loading && user && (
+              <button
+                onClick={() => logout()}
+                className="px-4 py-2 rounded-lg text-sm font-medium text-cream-dark/50 hover:text-cream-light hover:bg-oven-700/40 transition-all duration-300"
+              >
+                Salir
+              </button>
+            )}
             <Link
-              href="/planes"
+              href="/checkout"
               className="ml-3 px-5 py-2 bg-gradient-ember text-white text-sm font-semibold rounded-lg
                 hover:shadow-lg hover:shadow-ember/25 transition-all duration-300
                 active:scale-95"
@@ -96,8 +122,36 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <div className="border-t border-oven-700/30 pt-2 mt-2 space-y-1">
+              {!loading && user && (
+                <>
+                  <Link
+                    href="/panel"
+                    onClick={() => setOpen(false)}
+                    className="block px-4 py-3 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all"
+                  >
+                    Mi panel ({user.nombre.split(" ")[0]})
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setOpen(false) }}
+                    className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-cream-dark/50 hover:text-cream-light hover:bg-oven-700/40 transition-all"
+                  >
+                    Cerrar sesión
+                  </button>
+                </>
+              )}
+              {!loading && !user && (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="block px-4 py-3 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all"
+                >
+                  Ingresar
+                </Link>
+              )}
+            </div>
             <Link
-              href="/planes"
+              href="/checkout"
               onClick={() => setOpen(false)}
               className="block w-full mt-2 px-5 py-3 bg-gradient-ember text-white text-center text-sm font-semibold rounded-lg"
             >

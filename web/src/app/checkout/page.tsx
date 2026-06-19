@@ -1,20 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { plans } from "@/data/plans"
+import { useAuth } from "@/components/AuthProvider"
+import { fetchApi } from "@/lib/api"
 
 export default function CheckoutPage() {
+  const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
   const [selectedPlan, setSelectedPlan] = useState(plans[0].id)
-  const [nombre, setNombre] = useState("")
-  const [telefono, setTelefono] = useState("")
-  const [direccion, setDireccion] = useState("")
   const [notas, setNotas] = useState("")
   const [recibo, setRecibo] = useState("")
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace("/login")
+    }
+  }, [user, authLoading, router])
+
+  if (authLoading) return null
+  if (!user) return null
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -37,31 +48,22 @@ export default function CheckoutPage() {
     e.preventDefault()
     setError("")
 
-    if (!nombre || !telefono || !selectedPlan) {
-      setError("Completá los campos obligatorios")
+    if (!selectedPlan) {
+      setError("Seleccioná un plan")
       return
     }
 
     setLoading(true)
 
     try {
-      const res = await fetch("/api/checkout", {
+      await fetchApi("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre,
-          telefono,
-          direccion,
           plan: plans.find((p) => p.id === selectedPlan)?.name || selectedPlan,
           notas,
           recibo,
         }),
       })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Error al enviar")
-      }
 
       setSuccess(true)
     } catch (err) {
@@ -84,13 +86,22 @@ export default function CheckoutPage() {
           <p className="text-cream-dark/70 mb-8">
             Recibimos tu comprobante de pago. Lo revisaremos y te contactaremos pronto para confirmar tu suscripción.
           </p>
-          <Link
-            href="/"
-            className="inline-flex px-8 py-3 bg-gradient-ember text-white font-semibold rounded-xl text-sm
-              hover:shadow-xl hover:shadow-ember/30 transition-all duration-300"
-          >
-            Volver al inicio
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/panel"
+              className="px-8 py-3 bg-gradient-ember text-white font-semibold rounded-xl text-sm
+                hover:shadow-xl hover:shadow-ember/30 transition-all duration-300"
+            >
+              Ver mi panel
+            </Link>
+            <Link
+              href="/"
+              className="px-8 py-3 border border-oven-500/30 text-cream-dark/90 font-semibold rounded-xl text-sm
+                hover:border-cream-dark/40 hover:text-cream-light transition-all duration-300"
+            >
+              Volver al inicio
+            </Link>
+          </div>
         </div>
       </div>
     )
@@ -107,7 +118,7 @@ export default function CheckoutPage() {
             Finalizar suscripción
           </h1>
           <p className="text-cream-dark/70 max-w-xl mx-auto">
-            Elegí tu plan, completá tus datos y adjuntá el comprobante de pago.
+            Elegí tu plan, adjuntá el comprobante de pago y listo.
           </p>
         </div>
       </section>
@@ -153,75 +164,7 @@ export default function CheckoutPage() {
             </div>
 
             <div>
-              <h2 className="text-lg font-semibold text-cream-light mb-4">2. Datos personales</h2>
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="nombre" className="block text-cream-dark/80 text-sm mb-1.5">
-                    Nombre completo <span className="text-ember">*</span>
-                  </label>
-                  <input
-                    id="nombre"
-                    type="text"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    required
-                    className="w-full px-4 py-3 bg-oven-900 border border-oven-600/40 rounded-xl text-cream-light
-                      placeholder:text-cream-muted/50 focus:outline-none focus:border-ember/60 transition-colors
-                      text-sm"
-                    placeholder="Tu nombre y apellido"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="telefono" className="block text-cream-dark/80 text-sm mb-1.5">
-                    Teléfono <span className="text-ember">*</span>
-                  </label>
-                  <input
-                    id="telefono"
-                    type="tel"
-                    value={telefono}
-                    onChange={(e) => setTelefono(e.target.value)}
-                    required
-                    className="w-full px-4 py-3 bg-oven-900 border border-oven-600/40 rounded-xl text-cream-light
-                      placeholder:text-cream-muted/50 focus:outline-none focus:border-ember/60 transition-colors
-                      text-sm"
-                    placeholder="+591 XXXXXXXX"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="direccion" className="block text-cream-dark/80 text-sm mb-1.5">
-                    Dirección de entrega
-                  </label>
-                  <input
-                    id="direccion"
-                    type="text"
-                    value={direccion}
-                    onChange={(e) => setDireccion(e.target.value)}
-                    className="w-full px-4 py-3 bg-oven-900 border border-oven-600/40 rounded-xl text-cream-light
-                      placeholder:text-cream-muted/50 focus:outline-none focus:border-ember/60 transition-colors
-                      text-sm"
-                    placeholder="Zona, calle, número de casa"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="notas" className="block text-cream-dark/80 text-sm mb-1.5">
-                    Notas adicionales
-                  </label>
-                  <textarea
-                    id="notas"
-                    value={notas}
-                    onChange={(e) => setNotas(e.target.value)}
-                    rows={3}
-                    className="w-full px-4 py-3 bg-oven-900 border border-oven-600/40 rounded-xl text-cream-light
-                      placeholder:text-cream-muted/50 focus:outline-none focus:border-ember/60 transition-colors
-                      text-sm resize-none"
-                    placeholder="Horario preferido, alergias, instrucciones especiales..."
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-cream-light mb-4">3. Realizá el pago</h2>
+              <h2 className="text-lg font-semibold text-cream-light mb-4">2. Realizá el pago</h2>
               <div className="p-6 rounded-xl bg-gradient-card border border-oven-600/20 text-center">
                 <p className="text-cream-dark/70 text-sm mb-4">
                   Escaneá el código QR con tu app bancaria para realizar el pago.
@@ -239,6 +182,19 @@ export default function CheckoutPage() {
                   Realizá el pago por el monto del plan seleccionado y guardá el comprobante.
                 </p>
               </div>
+            </div>
+
+            <div>
+              <h2 className="text-lg font-semibold text-cream-light mb-4">3. Notas adicionales</h2>
+              <textarea
+                value={notas}
+                onChange={(e) => setNotas(e.target.value)}
+                rows={3}
+                className="w-full px-4 py-3 bg-oven-900 border border-oven-600/40 rounded-xl text-cream-light
+                  placeholder:text-cream-muted/50 focus:outline-none focus:border-ember/60 transition-colors
+                  text-sm resize-none"
+                placeholder="Horario preferido, alergias, instrucciones especiales..."
+              />
             </div>
 
             <div>

@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
       href="https://wa.me/59175769711?text=Hola%2C%20quisiera%20informaci%C3%B3n%20sobre%20las%20suscripciones%20de%20El%20Club%20del%20Pancito"
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full
+      className={`fixed bottom-6 left-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full
         bg-emerald-600 text-white shadow-lg hover:bg-emerald-700
         transition-all duration-300 hover:scale-105 active:scale-95
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}

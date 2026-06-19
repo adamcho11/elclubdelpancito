@@ -36,7 +36,7 @@ export default function Navbar() {
                 priority
               />
             </div>
-            <span className="text-cream-light font-semibold text-xs sm:text-sm md:text-xl tracking-tight">
+            <span className="text-cream-light font-semibold text-[10px] sm:text-xs md:text-base tracking-tight">
               El Club del Pancito
             </span>
           </Link>

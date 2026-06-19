@@ -6,6 +6,7 @@ export interface Complement {
   description: string
   shelfLife: string
   image: string
+  price: number
 }
 
 export const complements: Complement[] = [
@@ -17,6 +18,7 @@ export const complements: Complement[] = [
     description: "Huevos criollos frescos de gallinas de campo, seleccionados por tamaño uniforme. Proteína básica indispensable del desayuno chuquisaqueño.",
     shelfLife: "21 a 30 días",
     image: "/images/complementos/huevos_granja.webp",
+    price: 15,
   },
   {
     id: "api-morado",
@@ -26,6 +28,7 @@ export const complements: Complement[] = [
     description: "Bebida tradicional de maíz morado hervido con canela y clavo de olor. Se consume caliente, solo o acompañado con pan y queso.",
     shelfLife: "6 a 12 meses (en polvo seco)",
     image: "/images/complementos/api_morado.webp",
+    price: 8,
   },
   {
     id: "sultana",
@@ -35,6 +38,7 @@ export const complements: Complement[] = [
     description: "Bebida icónica elaborada con la cáscara deshidratada de la cereza de café. Producto de nicho con alta identidad local y sabor inconfundible.",
     shelfLife: "12 meses",
     image: "/images/complementos/sultana.webp",
+    price: 5,
   },
   {
     id: "te-windsor",
@@ -44,6 +48,7 @@ export const complements: Complement[] = [
     description: "Té negro aromatizado en saquitos. Presentaciones de Canela y Limón, líderes del mercado de infusiones en Bolivia.",
     shelfLife: "24 meses",
     image: "/images/complementos/te_windsor.webp",
+    price: 12,
   },
   {
     id: "te-limon",
@@ -53,6 +58,7 @@ export const complements: Complement[] = [
     description: "Té negro saborizado con limón en prácticos saquitos individuales. Bajo costo unitario, asegura recurrencia diaria de la canasta.",
     shelfLife: "24 meses",
     image: "/images/complementos/te_limon.webp",
+    price: 12,
   },
   {
     id: "manzanilla",
@@ -62,6 +68,7 @@ export const complements: Complement[] = [
     description: "Infusión herbal natural de manzanilla, conocida por sus propiedades digestivas y relajantes. Ideal para después de las comidas y meriendas.",
     shelfLife: "18 a 24 meses",
     image: "/images/complementos/manzanilla.webp",
+    price: 10,
   },
   {
     id: "cafe-yungas",
@@ -71,6 +78,7 @@ export const complements: Complement[] = [
     description: "Café de altura cultivado en la región de los Yungas bolivianos. Formato molido artesanal para filtro de goteo o prensa francesa.",
     shelfLife: "6 meses (empaque hermético)",
     image: "/images/complementos/cafe_copacabana.webp",
+    price: 25,
   },
   {
     id: "cafe-instantaneo",
@@ -80,6 +88,7 @@ export const complements: Complement[] = [
     description: "Café instantáneo de marcas líderes en Bolivia. Formato práctico en frasco o sachet para el segmento que prioriza la rapidez matutina.",
     shelfLife: "12 a 24 meses",
     image: "/images/complementos/cafe_instantaneo.webp",
+    price: 18,
   },
   {
     id: "leche-condensada",
@@ -89,6 +98,7 @@ export const complements: Complement[] = [
     description: "Envase flexible con pico vertedor. Complemento dulce tradicional para café, postres y repostería. Emula la dulzura del sucumbé.",
     shelfLife: "12 meses (sin abrir)",
     image: "/images/complementos/leche_condensada_pil.webp",
+    price: 12,
   },
   {
     id: "mantequilla",
@@ -98,6 +108,7 @@ export const complements: Complement[] = [
     description: "Mantequilla de mesa cremosa, complemento graso fundamental para untar sobre panes calientes recién horneados.",
     shelfLife: "3 a 6 meses (requiere refrigeración)",
     image: "/images/complementos/mantequilla.webp",
+    price: 15,
   },
   {
     id: "margarina",
@@ -107,6 +118,7 @@ export const complements: Complement[] = [
     description: "Margarina para untar de la marca Regia, gran aceptación en los hogares bolivianos para el desayuno diario.",
     shelfLife: "3 a 6 meses (requiere refrigeración)",
     image: "/images/complementos/margarina.webp",
+    price: 8,
   },
   {
     id: "queso-criollo",
@@ -116,6 +128,7 @@ export const complements: Complement[] = [
     description: "Queso semiduro artesanal de campo chuquisaqueño. Requiere control estricto de cadena de frío para mantener su frescura.",
     shelfLife: "15 a 30 días (requiere refrigeración)",
     image: "/images/complementos/queso_criollo.webp",
+    price: 22,
   },
   {
     id: "embutidos",
@@ -125,6 +138,7 @@ export const complements: Complement[] = [
     description: "Jamón de pierna y mortadela Cobolde, clásicos insustituibles para los sándwiches rápidos de las mañanas chuquisaqueñas.",
     shelfLife: "15 a 21 días (al vacío, refrigerado)",
     image: "/images/complementos/mortadela.webp",
+    price: 18,
   },
   {
     id: "pate-higado",
@@ -134,6 +148,7 @@ export const complements: Complement[] = [
     description: "Pâté untable premium de alta preferencia en el té de la tarde chuquisaqueño. Untable de alta gama para ocasiones especiales.",
     shelfLife: "30 a 45 días (refrigerado tras abrir)",
     image: "/images/complementos/pate_higado.webp",
+    price: 12,
   },
   {
     id: "dulce-de-leche",
@@ -143,6 +158,7 @@ export const complements: Complement[] = [
     description: "Dulce de leche artesanal chuquisaqueño, promueve el consumo de panes dulces y bollos. Alto margen y sabor inconfundible.",
     shelfLife: "3 a 6 meses",
     image: "/images/complementos/dulce_de_leche.webp",
+    price: 18,
   },
   {
     id: "mermelada",
@@ -152,6 +168,7 @@ export const complements: Complement[] = [
     description: "Mermelada local sin azúcar añadido, variedad de ciruela y frutas de estación. Complemento premium para panes integrales y tostadas.",
     shelfLife: "12 meses (sin abrir)",
     image: "/images/complementos/mermelada.webp",
+    price: 14,
   },
   {
     id: "mates",
@@ -161,5 +178,6 @@ export const complements: Complement[] = [
     description: "Recipiente tradicional de mate elaborado a partir del fruto ahuecado de una cucurbitácea. Alta identidad local.",
     shelfLife: "Indefinido",
     image: "/images/complementos/mates.webp",
+    price: 8,
   },
 ]

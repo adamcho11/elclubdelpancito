@@ -53,12 +53,20 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {!loading && user && (
+            {!loading && user && user.role === "user" && (
               <Link
                 href="/panel"
                 className="px-4 py-2 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all duration-300"
               >
                 {user.nombre.split(" ")[0]}
+              </Link>
+            )}
+            {!loading && user && user.role === "admin" && (
+              <Link
+                href="/admin"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-ember hover:text-ember-light transition-all duration-300"
+              >
+                Admin
               </Link>
             )}
             {!loading && !user && (
@@ -77,6 +85,7 @@ export default function Navbar() {
                 Salir
               </button>
             )}
+            {!loading && (!user || user.role !== "admin") && (
             <Link
               href="/checkout"
               className="ml-3 px-5 py-2 bg-gradient-ember text-white text-sm font-semibold rounded-lg
@@ -85,6 +94,7 @@ export default function Navbar() {
             >
               Suscribirme
             </Link>
+            )}
           </div>
 
           <button
@@ -121,7 +131,7 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="border-t border-oven-700/30 pt-2 mt-2 space-y-1">
-              {!loading && user && (
+              {!loading && user && user.role === "user" && (
                 <>
                   <Link
                     href="/panel"
@@ -129,6 +139,23 @@ export default function Navbar() {
                     className="block px-4 py-3 rounded-lg text-sm font-medium text-cream-dark/80 hover:text-cream-light hover:bg-oven-700/40 transition-all"
                   >
                     Mi panel ({user.nombre.split(" ")[0]})
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setOpen(false) }}
+                    className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-cream-dark/50 hover:text-cream-light hover:bg-oven-700/40 transition-all"
+                  >
+                    Cerrar sesión
+                  </button>
+                </>
+              )}
+              {!loading && user && user.role === "admin" && (
+                <>
+                  <Link
+                    href="/admin"
+                    onClick={() => setOpen(false)}
+                    className="block px-4 py-3 rounded-lg text-sm font-medium text-ember hover:text-ember-light transition-all"
+                  >
+                    Panel Admin
                   </Link>
                   <button
                     onClick={() => { logout(); setOpen(false) }}
@@ -148,6 +175,7 @@ export default function Navbar() {
                 </Link>
               )}
             </div>
+            {!loading && (!user || user.role !== "admin") && (
             <Link
               href="/checkout"
               onClick={() => setOpen(false)}
@@ -155,6 +183,7 @@ export default function Navbar() {
             >
               Suscribirme
             </Link>
+            )}
           </div>
         </div>
       )}

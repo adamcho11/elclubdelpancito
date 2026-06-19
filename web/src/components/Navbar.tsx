@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 overflow-hidden rounded-xl">
+            <div className="relative w-14 h-14 sm:w-12 sm:h-12 overflow-hidden rounded-xl shrink-0">
               <Image
                 src="/images/logo.png"
                 alt="El Club del Pancito"
@@ -34,7 +34,7 @@ export default function Navbar() {
                 priority
               />
             </div>
-            <span className="text-cream-light font-semibold text-sm sm:text-base tracking-tight hidden sm:block">
+            <span className="text-cream-light font-semibold text-sm sm:text-base tracking-tight leading-tight">
               El Club del Pancito
             </span>
           </Link>

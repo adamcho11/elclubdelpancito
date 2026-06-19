@@ -16,6 +16,7 @@ model User {
   direccion   String?
   role        String       @default("user")
   submissions Submission[]
+  weeklyPicks WeeklyPick[]
   createdAt   DateTime     @default(now())
 }
 
@@ -28,6 +29,17 @@ model Submission {
   recibo    String?
   status    String   @default("pendiente")
   createdAt DateTime @default(now())
+}
+
+model WeeklyPick {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  complementId String
+  weekStart    String
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, weekStart])
 }
 
 model QrImage {

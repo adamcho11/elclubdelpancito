@@ -51,9 +51,10 @@ export default function PlanCard({ plan, detailed = false }: { plan: Plan; detai
 
           <div className="rounded-xl bg-ember/5 border border-ember/15 p-3">
             <span className="text-ember-light text-xs font-semibold uppercase tracking-wider">
-              + Producto extra a elección
+              + Producto gratis a elección semanal
             </span>
             <p className="text-cream-dark/70 text-xs mt-1">{plan.extraProduct}</p>
+            <p className="text-cream-dark/50 text-[10px] mt-0.5">Distinto cada semana. Elegilo en tu panel.</p>
           </div>
 
           {detailed && (

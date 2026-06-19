@@ -50,6 +50,18 @@ async function main() {
     )
   `)
 
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS WeeklyPick (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      complementId TEXT NOT NULL,
+      weekStart TEXT NOT NULL,
+      createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (userId) REFERENCES User(id),
+      UNIQUE(userId, weekStart)
+    )
+  `)
+
   console.log("Tablas creadas.")
 
   const password = await bcrypt.hash("admin123", 10)

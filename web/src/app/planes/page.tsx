@@ -27,7 +27,8 @@ export default function PlanesPage() {
           </h1>
           <p className="text-cream-dark/70 max-w-xl mx-auto">
             Tres planes diseñados para adaptarse a los hábitos de consumo de los hogares
-            chuquisaqueños. Todos incluyen pan fresco a domicilio y complementos seleccionados.
+            chuquisaqueños. Todos incluyen pan fresco a domicilio, complementos seleccionados
+            y 1 producto gratis a elección distinto cada semana.
           </p>
         </div>
       </section>

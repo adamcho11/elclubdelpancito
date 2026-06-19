@@ -9,7 +9,7 @@ export const steps: Step[] = [
   {
     number: 1,
     title: "Elige tu plan",
-    description: "Selecciona entre nuestros tres planes de suscripción: El Chuquisaqueño Diario, Desayuno Familiar o Tarde de Té y Bienestar. Cada uno diseñado para distintos estilos de vida en Sucre.",
+    description: "Selecciona entre nuestros tres planes de suscripción. Cada uno incluye 1 producto gratis a elección semanal (¡distinto cada semana!) diseñado para distintos estilos de vida en Sucre.",
     icon: "🥖",
   },
   {

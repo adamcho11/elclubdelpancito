@@ -23,20 +23,18 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-oven-950/80 backdrop-blur-xl border-b border-oven-700/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
-          <Link href="/" className="flex items-center gap-3 group shrink-0 relative">
-            <div className="relative mt-20 md:mt-28 lg:mt-36">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 overflow-hidden rounded-xl">
               <Image
                 src="/images/logo.png"
                 alt="El Club del Pancito"
-                width={2816}
-                height={1536}
-                className="w-32 sm:w-52 md:w-72 lg:w-96 h-auto object-contain
-                  group-hover:scale-105 transition-transform duration-500
-                  drop-shadow-[0_10px_25px_rgba(0,0,0,0.4)]"
+                width={64}
+                height={64}
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 priority
               />
             </div>
-            <span className="text-cream-light font-semibold text-[10px] sm:text-xs md:text-base tracking-tight">
+            <span className="text-cream-light font-semibold text-sm sm:text-base tracking-tight hidden sm:block">
               El Club del Pancito
             </span>
           </Link>

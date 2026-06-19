@@ -12,7 +12,7 @@ interface SubmissionItem {
 }
 interface ProductItem { id: number; name: string; brand: string; category: string; description: string; shelfLife: string; image: string; price: number }
 interface BreadItem { id: number; name: string; description: string; ingredients: string; texture: string; role: string; image: string }
-interface PlanItem { id: number; slug: string; name: string; subtitle: string; frequency: string; breadComposition: string; complements: string[]; extraProduct: string; target: string; price: number; deliveriesPerMonth: number; highlighted: boolean }
+interface PlanItem { id: number; planId: string; name: string; subtitle: string; frequency: string; breadComposition: string; complements: string; extraProduct: string; target: string; price: number; deliveriesPerMonth: number; highlighted: boolean }
 interface Stats { users: number; totalSubmissions: number; pendingSubmissions: number; totalProducts: number; totalBreads: number; totalPlans: number }
 
 const TABS = ["Dashboard", "Comprobantes", "Panes", "Productos", "Planes", "QR"]
@@ -69,7 +69,7 @@ export default function AdminPage() {
   // Plan form
   const [showPlanForm, setShowPlanForm] = useState(false)
   const [editPlan, setEditPlan] = useState<PlanItem | null>(null)
-  const [planForm, setPlanForm] = useState({ slug: "", name: "", subtitle: "", frequency: "", breadComposition: "", complements: "", extraProduct: "", target: "", price: 0, deliveriesPerMonth: 1, highlighted: false })
+  const [planForm, setPlanForm] = useState({ planId: "", name: "", subtitle: "", frequency: "", breadComposition: "", complements: "", extraProduct: "", target: "", price: 0, deliveriesPerMonth: 1, highlighted: false })
 
   useEffect(() => {
     if (authLoading) return
@@ -186,8 +186,12 @@ export default function AdminPage() {
 
   // ---- PLANS ----
   const openPlanForm = (p?: PlanItem) => {
-    if (p) { setEditPlan(p); setPlanForm({ slug: p.slug, name: p.name, subtitle: p.subtitle, frequency: p.frequency, breadComposition: p.breadComposition, complements: p.complements.join("\n"), extraProduct: p.extraProduct, target: p.target, price: p.price, deliveriesPerMonth: p.deliveriesPerMonth, highlighted: p.highlighted }) }
-    else { setEditPlan(null); setPlanForm({ slug: "", name: "", subtitle: "", frequency: "", breadComposition: "", complements: "", extraProduct: "", target: "", price: 0, deliveriesPerMonth: 1, highlighted: false }) }
+    if (p) {
+      const comps = (() => { try { return JSON.parse(p.complements) } catch { return [] } })()
+      setEditPlan(p)
+      setPlanForm({ planId: p.planId, name: p.name, subtitle: p.subtitle, frequency: p.frequency, breadComposition: p.breadComposition, complements: Array.isArray(comps) ? comps.join("\n") : p.complements, extraProduct: p.extraProduct, target: p.target, price: p.price, deliveriesPerMonth: p.deliveriesPerMonth, highlighted: p.highlighted })
+    }
+    else { setEditPlan(null); setPlanForm({ planId: "", name: "", subtitle: "", frequency: "", breadComposition: "", complements: "", extraProduct: "", target: "", price: 0, deliveriesPerMonth: 1, highlighted: false }) }
     setShowPlanForm(true)
   }
 
@@ -196,7 +200,7 @@ export default function AdminPage() {
     try {
       const complementsArr = planForm.complements.split("\n").map((s) => s.trim()).filter(Boolean)
       if (complementsArr.length === 0) { setError("Agregá al menos un complemento"); setSaving(false); return }
-      const data = { ...planForm, complements: complementsArr }
+      const data = { ...planForm, complements: JSON.stringify(complementsArr) }
       if (editPlan) {
         await fetchApi(`/api/admin/plans/${editPlan.id}`, { method: "PUT", body: JSON.stringify(data) })
         setMsg("Plan actualizado")
@@ -453,7 +457,7 @@ export default function AdminPage() {
                 <div className="mb-6 p-4 rounded-xl bg-gradient-card border border-ember/20 space-y-3">
                   <h3 className="text-cream-light font-semibold text-sm">{editPlan ? "Editar plan" : "Nuevo plan"}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input value={planForm.slug} onChange={(e) => setPlanForm({...planForm, slug: e.target.value})} placeholder="Slug (ej: chuquisaqueno-diario)" className={inputClass} />
+                    <input value={planForm.planId} onChange={(e) => setPlanForm({...planForm, planId: e.target.value})} placeholder="ID (ej: chuquisaqueno-diario)" className={inputClass} />
                     <input value={planForm.name} onChange={(e) => setPlanForm({...planForm, name: e.target.value})} placeholder="Nombre" className={inputClass} />
                     <input value={planForm.subtitle} onChange={(e) => setPlanForm({...planForm, subtitle: e.target.value})} placeholder="Subtítulo" className={inputClass} />
                     <input type="number" value={planForm.price} onChange={(e) => setPlanForm({...planForm, price: parseInt(e.target.value) || 0})} placeholder="Precio (Bs.)" className={inputClass} />
@@ -483,7 +487,7 @@ export default function AdminPage() {
                       <div className="min-w-0">
                         <p className="text-cream-light text-sm font-medium">{p.name} {p.highlighted && <span className="text-ember text-xs">★</span>}</p>
                         <p className="text-cream-dark/60 text-xs">{p.subtitle}</p>
-                        <p className="text-cream-dark/50 text-xs mt-0.5">Bs. {p.price}/sem · {p.frequency} · {p.complements?.length || 0} complementos</p>
+                        <p className="text-cream-dark/50 text-xs mt-0.5">Bs. {p.price}/sem · {p.frequency} · {(() => { try { return JSON.parse(p.complements).length } catch { return 0 } })()} complementos</p>
                       </div>
                       <div className="flex gap-1 shrink-0">
                         <button onClick={() => openPlanForm(p)} className="px-3 py-1 text-xs text-ember hover:bg-ember/10 rounded-lg">Editar</button>

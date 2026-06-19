@@ -22,9 +22,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-oven-950/80 backdrop-blur-xl border-b border-oven-700/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
+        <div className="flex items-center h-20 sm:h-16">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-            <div className="relative w-14 h-14 sm:w-12 sm:h-12 overflow-hidden rounded-xl shrink-0">
+            <div className="relative w-28 h-28 sm:w-12 sm:h-12 overflow-hidden rounded-xl shrink-0">
               <Image
                 src="/images/logo.png"
                 alt="El Club del Pancito"

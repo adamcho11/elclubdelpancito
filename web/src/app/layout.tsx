@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import Script from "next/script"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
@@ -66,6 +67,7 @@ export const metadata: Metadata = {
 }
 
 const GTM_ID = "GTM-WLLJ2MVS"
+const GA_ID = "G-BGZ9ZJGCQM"
 
 export default function RootLayout({
   children,
@@ -93,6 +95,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <GoogleAnalytics gaId={GA_ID} />
         <Navbar />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />
